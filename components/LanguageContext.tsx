@@ -1288,21 +1288,29 @@ const translations: Record<Language, Record<string, string>> = {
 
 // 提供上下文的组件
 export const LanguageProvider: React.FC<{children: ReactNode}> = ({ children }) => {
-  // 从本地存储初始化语言，默认为中文
-  const [language, setLanguageState] = useState<Language>('zh');
+  // 仅在客户端 useEffect 检测语言，初始值始终为 'en'，避免 hydration 不一致
+  const [language, setLanguageState] = useState<Language>('en');
 
-  // 首次渲染时检查本地存储的语言设置
   useEffect(() => {
-    const savedLanguage = localStorage.getItem('language') as Language;
+    // 检查本地存储
+    const savedLanguage = typeof window !== 'undefined' ? (localStorage.getItem('language') as Language) : undefined;
     if (savedLanguage && (savedLanguage === 'zh' || savedLanguage === 'en' || savedLanguage === 'ja')) {
       setLanguageState(savedLanguage);
+    } else if (typeof window !== 'undefined' && window.navigator) {
+      const navLang = window.navigator.language || window.navigator.languages?.[0] || '';
+      if (navLang.startsWith('zh')) setLanguageState('zh');
+      else if (navLang.startsWith('ja')) setLanguageState('ja');
+      else if (navLang.startsWith('en')) setLanguageState('en');
+      else setLanguageState('en');
     }
   }, []);
 
   // 设置语言并保存到本地存储
   const setLanguage = (newLanguage: Language) => {
     setLanguageState(newLanguage);
-    localStorage.setItem('language', newLanguage);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('language', newLanguage);
+    }
   };
 
   // 翻译函数
@@ -1318,4 +1326,4 @@ export const LanguageProvider: React.FC<{children: ReactNode}> = ({ children }) 
 };
 
 // 使用上下文的钩子
-export const useLanguage = () => useContext(LanguageContext); 
+export const useLanguage = () => useContext(LanguageContext);

@@ -4,7 +4,6 @@ import { useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import React, { Suspense } from 'react';
 import { LanguageProvider } from '@/components/LanguageContext';
-import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 
 // 动态导入ShareCard组件，禁用SSR
 const ShareCard = dynamic(() => import('@/components/ShareCard'), { ssr: false });
@@ -116,9 +115,7 @@ export default function SharePage() {
     <LanguageProvider>
       <main className="min-h-screen bg-gray-50 dark:bg-gray-900 py-6">
         <div className="container mx-auto px-4">
-          <div className="flex justify-center mb-4">
-            <LanguageSwitcher />
-          </div>
+
           <Suspense fallback={<ShareLoading />}>
             <ShareCardWrapper />
           </Suspense>

@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { Wallet, Github, FileText, Book, History, Eye , Star} from 'lucide-react'; // 添加新图标
+import { Wallet, FileText, History, Eye } from 'lucide-react'; // 删除GitHub和Star图标
 import Link from 'next/link'; // 导入Link组件用于导航
 import { useLanguage } from './LanguageContext';
-import { LanguageSwitcher } from './LanguageSwitcher';
 import { countryNames } from './LanguageContext';
 
 // 定义PPP转换因子映射表
@@ -400,8 +399,8 @@ const SalaryCalculator = () => {
     // 在客户端环境中执行重定向
     if (typeof window !== 'undefined') {
       const hostname = window.location.hostname;
-      if (hostname !== 'worthjob.zippland.com' && hostname !== 'localhost' && !hostname.includes('127.0.0.1')) {
-        window.location.href = 'https://worthjob.zippland.com' + window.location.pathname;
+      if (hostname !== 'worthcalc.stella22.top' && hostname !== 'localhost' && !hostname.includes('127.0.0.1')) {
+        window.location.href = 'https://worthcalc.stella22.top' + window.location.pathname;
       }
     }
   }, []);
@@ -973,237 +972,185 @@ const SalaryCalculator = () => {
     <div className="max-w-2xl mx-auto p-4 sm:p-6">
       <div className="mb-4 text-center">
         <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 py-2">{t('title')}</h1>
-        
-        <div className="mb-3">
-          <a
-            href="https://github.com/zippland/worth-calculator"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors inline-flex items-center gap-1.5"
-          >
-            <Star className="h-3.5 w-3.5" />
-            {t('star_request')}
-          </a>
-        </div>
-        
-        <div className="flex items-center justify-center gap-3 mb-2">
-          <p className="text-sm text-gray-500 dark:text-gray-400">v6.2.1</p>
-          <a
-            href="https://github.com/zippland/worth-calculator"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-gray-500 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-400 transition-colors flex items-center gap-1"
-          >
-            <Github className="h-3.5 w-3.5" />
-            {t('github')}
-          </a>
-          <a
-            href="https://www.xiaohongshu.com/user/profile/623e8b080000000010007721?xsec_token=YBzoLUB4HsSITTBOgPAXY-0Gvqvn3HqHpcDeA3sHhDh-M%3D&xsec_source=app_share&xhsshare=CopyLink&appuid=5c5d5259000000001d00ef04&apptime=1743400694&share_id=b9bfcd5090f9473daf5c1d1dc3eb0921&share_channel=copy_link"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-gray-500 hover:text-pink-500 dark:text-gray-400 dark:hover:text-pink-400 transition-colors flex items-center gap-1"
-          >
-            <Book className="h-3.5 w-3.5" />
-            {t('xiaohongshu')}
-          </a>
-          {/* 仅在客户端渲染历史记录按钮 */}
-          {isBrowser && (
-            <button
-              onClick={() => setShowHistory(!showHistory)}
-              className="text-sm text-gray-500 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-400 transition-colors flex items-center gap-1 cursor-pointer"
-            >
-              <History className="h-3.5 w-3.5" />
-              {t('history')}
-            </button>
-          )}
-        </div>
-        
-        {/* 历史记录列表 - 仅在客户端渲染 */}
-        {isBrowser && showHistory && (
-          <div className="relative z-10">
-            <div className="absolute left-1/2 transform -translate-x-1/2 mt-1 w-72 md:w-96 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 max-h-80 overflow-y-auto">
-              <div className="p-3">
-                <div className="flex justify-between items-center mb-3 border-b pb-2 border-gray-200 dark:border-gray-700">
-                  <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center">
-                    <History className="h-3.5 w-3.5 mr-1" />
-                    {t('history')}
-                  </h3>
-                  <div className="flex gap-2">
-                    {history.length > 0 && (
-                      <button 
-                        onClick={clearAllHistory}
-                        className="text-xs text-gray-500 hover:text-red-500 dark:hover:text-red-400 transition-colors px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
-                      >
-                        {t('clear_all')}
-                      </button>
-                    )}
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation(); // 阻止事件冒泡
-                        setShowHistory(false);
-                      }}
-                      className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 w-6 h-6 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      ×
-                    </button>
-                  </div>
-                </div>
-                
-                {history.length > 0 ? (
-                  <ul className="space-y-2">
-                    {history.map((item) => (
-                      <li key={item.id} className="flex items-center justify-between p-2 rounded-lg bg-gray-50 dark:bg-gray-750 hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors border border-gray-100 dark:border-gray-600">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className={`text-sm font-semibold ${item.assessmentColor}`}>{item.value}</span>
-                            <span className="text-xs px-2 py-0.5 rounded-full bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300">
-                              {item.countryCode !== 'CN' ? '$' : '¥'}{item.salary}
-                            </span>
-                          </div>
-                          <div className="text-xs text-gray-500 flex items-center">
-                            <span>{formatDate(item.timestamp)}</span>
-                          </div>
-                        </div>
-                        <div className="flex gap-1">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation(); // 阻止事件冒泡
-                              e.preventDefault(); // 阻止默认行为
-                              
-                              // 恢复历史记录中的值到当前表单
-                              setFormData({
-                                ...formData,
-                                salary: item.salary,
-                                cityFactor: item.cityFactor,
-                                workHours: item.workHours,
-                                commuteHours: item.commuteHours,
-                                restTime: item.restTime,
-                                workDaysPerWeek: item.workDaysPerWeek,
-                                wfhDaysPerWeek: item.wfhDaysPerWeek,
-                                annualLeave: item.annualLeave,
-                                paidSickLeave: item.paidSickLeave,
-                                publicHolidays: item.publicHolidays,
-                                workEnvironment: item.workEnvironment,
-                                leadership: item.leadership,
-                                teamwork: item.teamwork,
-                                degreeType: item.degreeType,
-                                schoolType: item.schoolType,
-                                education: item.education,
-                                homeTown: item.homeTown,
-                                shuttle: item.shuttle,
-                                canteen: item.canteen,
-                                workYears: item.workYears,
-                                jobStability: item.jobStability,
-                                bachelorType: item.bachelorType,
-                                // 确保 hasShuttle 和 hasCanteen 有合法的布尔值
-                                hasShuttle: typeof item.hasShuttle === 'boolean' ? item.hasShuttle : false,
-                                hasCanteen: typeof item.hasCanteen === 'boolean' ? item.hasCanteen : false,
-                              });
-                              
-                              // 设置国家
-                              handleCountryChange(item.countryCode);
-                              
-                              // 关闭历史记录面板
-                              setShowHistory(false);
-                            }}
-                            className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 p-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded"
-                            title={t('restore_history')}
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                            </svg>
-                          </button>
-                          <Link
-                            href={{
-                              pathname: '/share',
-                              query: {
-                                value: item.value,
-                                assessment: item.assessment, // 传递翻译键而不是文本
-                                assessmentColor: item.assessmentColor,
-                                cityFactor: item.cityFactor,
-                                workHours: item.workHours,
-                                commuteHours: item.commuteHours,
-                                restTime: item.restTime,
-                                dailySalary: item.dailySalary,
-                                isYuan: item.countryCode !== 'CN' ? 'false' : 'true',
-                                workDaysPerYear: item.workDaysPerYear,
-                                workDaysPerWeek: item.workDaysPerWeek,
-                                wfhDaysPerWeek: item.wfhDaysPerWeek,
-                                annualLeave: item.annualLeave,
-                                paidSickLeave: item.paidSickLeave,
-                                publicHolidays: item.publicHolidays,
-                                workEnvironment: item.workEnvironment,
-                                leadership: item.leadership,
-                                teamwork: item.teamwork,
-                                degreeType: item.degreeType,
-                                schoolType: item.schoolType,
-                                education: item.education,
-                                homeTown: item.homeTown,
-                                shuttle: item.shuttle,
-                                canteen: item.canteen,
-                                workYears: item.workYears,
-                                jobStability: item.jobStability,
-                                bachelorType: item.bachelorType,
-                                countryCode: item.countryCode,
-                                countryName: getCountryName(item.countryCode),
-                                hasShuttle: item.hasShuttle,
-                                hasCanteen: item.hasCanteen,
-                              }
-                            }}
-                            className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 p-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded"
-                          >
-                            <Eye className="w-4 h-4" />
-                          </Link>
-                          <button
-                            onClick={(e) => deleteHistoryItem(item.id, e)}
-                            className="text-gray-400 hover:text-red-500 dark:hover:text-red-400 p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded"
-                            title={t('delete_history')}
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
-                          </button>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <div className="text-center py-8 px-4">
-                    <div className="text-gray-400 mb-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 mx-auto opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {t('no_history')}
-                    </p>
-                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                      {t('history_notice')}
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-        
-        <div className="flex justify-center mb-2">
-          <LanguageSwitcher />
-        </div>
-        
-        {/* 访问统计 - 仅在客户端渲染 */}
-        {isBrowser && (
-          <div className="mt-1 text-xs text-gray-400 dark:text-gray-600 flex justify-center gap-4">
-            <span id="busuanzi_container_site_pv" className={`transition-opacity duration-300 ${visitorVisible ? 'opacity-100' : 'opacity-0'}`}>
-              {t('visits')}: <span id="busuanzi_value_site_pv"></span>
-            </span>
-            <span id="busuanzi_container_site_uv" className={`transition-opacity duration-300 ${visitorVisible ? 'opacity-100' : 'opacity-0'}`}>
-              {t('visitors')}: <span id="busuanzi_value_site_uv"></span>
-            </span>
-          </div>
-        )}
       </div>
 
+      <div className="flex items-center justify-center gap-3 mb-2">
+        <p className="text-sm text-gray-500 dark:text-gray-400">v6.2.1</p>
+        {/* 仅在客户端渲染历史记录按钮 */}
+        {isBrowser && (
+          <button
+            onClick={() => setShowHistory(!showHistory)}
+            className="text-sm text-gray-500 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-400 transition-colors flex items-center gap-1 cursor-pointer"
+          >
+            <History className="h-3.5 w-3.5" />
+            {t('history')}
+          </button>
+        )}
+      </div>
+      
+      {/* 历史记录列表 - 仅在客户端渲染 */}
+      {isBrowser && showHistory && (
+        <div className="relative z-10">
+          <div className="absolute left-1/2 transform -translate-x-1/2 mt-1 w-72 md:w-96 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 max-h-80 overflow-y-auto">
+            <div className="p-3">
+              <div className="flex justify-between items-center mb-3 border-b pb-2 border-gray-200 dark:border-gray-700">
+                <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center">
+                  <History className="h-3.5 w-3.5 mr-1" />
+                  {t('history')}
+                </h3>
+                <div className="flex gap-2">
+                  {history.length > 0 && (
+                    <button 
+                      onClick={clearAllHistory}
+                      className="text-xs text-gray-500 hover:text-red-500 dark:hover:text-red-400 transition-colors px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      {t('clear_all')}
+                    </button>
+                  )}
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowHistory(false);
+                    }}
+                    className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 w-6 h-6 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    ×
+                  </button>
+                </div>
+              </div>
+              
+              {history.length > 0 ? (
+                <ul className="space-y-2">
+                  {history.map((item) => (
+                    <li key={item.id} className="flex items-center justify-between p-2 rounded-lg bg-gray-50 dark:bg-gray-750 hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors border border-gray-100 dark:border-gray-600">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className={`text-sm font-semibold ${item.assessmentColor}`}>{item.value}</span>
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300">
+                            {item.countryCode !== 'CN' ? '$' : '¥'}{item.salary}
+                          </span>
+                        </div>
+                        <div className="text-xs text-gray-500 flex items-center">
+                          <span>{formatDate(item.timestamp)}</span>
+                        </div>
+                      </div>
+                      <div className="flex gap-1">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            setFormData({
+                              ...formData,
+                              salary: item.salary,
+                              cityFactor: item.cityFactor,
+                              workHours: item.workHours,
+                              commuteHours: item.commuteHours,
+                              restTime: item.restTime,
+                              workDaysPerWeek: item.workDaysPerWeek,
+                              wfhDaysPerWeek: item.wfhDaysPerWeek,
+                              annualLeave: item.annualLeave,
+                              paidSickLeave: item.paidSickLeave,
+                              publicHolidays: item.publicHolidays,
+                              workEnvironment: item.workEnvironment,
+                              leadership: item.leadership,
+                              teamwork: item.teamwork,
+                              degreeType: item.degreeType,
+                              schoolType: item.schoolType,
+                              education: item.education,
+                              homeTown: item.homeTown,
+                              shuttle: item.shuttle,
+                              canteen: item.canteen,
+                              workYears: item.workYears,
+                              jobStability: item.jobStability,
+                              bachelorType: item.bachelorType,
+                              // 确保 hasShuttle 和 hasCanteen 有合法的布尔值
+                              hasShuttle: typeof item.hasShuttle === 'boolean' ? item.hasShuttle : false,
+                              hasCanteen: typeof item.hasCanteen === 'boolean' ? item.hasCanteen : false,
+                            });
+                            handleCountryChange(item.countryCode);
+                            setShowHistory(false);
+                          }}
+                          className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 p-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded"
+                          title={t('restore_history')}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>
+                        </button>
+                        <Link
+                          href={{
+                            pathname: '/share',
+                            query: {
+                              value: item.value,
+                              assessment: item.assessment,
+                              assessmentColor: item.assessmentColor,
+                              cityFactor: item.cityFactor,
+                              workHours: item.workHours,
+                              commuteHours: item.commuteHours,
+                              restTime: item.restTime,
+                              dailySalary: item.dailySalary,
+                              isYuan: item.countryCode !== 'CN' ? 'false' : 'true',
+                              workDaysPerYear: item.workDaysPerYear,
+                              workDaysPerWeek: item.workDaysPerWeek,
+                              wfhDaysPerWeek: item.wfhDaysPerWeek,
+                              annualLeave: item.annualLeave,
+                              paidSickLeave: item.paidSickLeave,
+                              publicHolidays: item.publicHolidays,
+                              workEnvironment: item.workEnvironment,
+                              leadership: item.leadership,
+                              teamwork: item.teamwork,
+                              degreeType: item.degreeType,
+                              schoolType: item.schoolType,
+                              education: item.education,
+                              homeTown: item.homeTown,
+                              shuttle: item.shuttle,
+                              canteen: item.canteen,
+                              workYears: item.workYears,
+                              jobStability: item.jobStability,
+                              bachelorType: item.bachelorType,
+                              countryCode: item.countryCode,
+                              countryName: getCountryName(item.countryCode),
+                              hasShuttle: item.hasShuttle,
+                              hasCanteen: item.hasCanteen,
+                            }
+                          }}
+                          className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 p-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </Link>
+                        <button
+                          onClick={(e) => deleteHistoryItem(item.id, e)}
+                          className="text-gray-400 hover:text-red-500 dark:hover:text-red-400 p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded"
+                          title={t('delete_history')}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-center py-8 px-4">
+                  <div className="text-gray-400 mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 mx-auto opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {t('no_history')}
+                  </p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                    {t('history_notice')}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+        
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl shadow-gray-200/50 dark:shadow-black/30">
         <div className="p-6 space-y-8">
           {/* 薪资与工作时间 section */}
